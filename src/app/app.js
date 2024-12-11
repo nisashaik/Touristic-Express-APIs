@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cloudinary = require("cloudinary").v2;
 const cookieParser = require("cookie-parser");
 const crossOrigin = require("cors");
 const env = require("dotenv");
@@ -20,6 +21,13 @@ env.config();
 const connectMongooDb = require("../config/db.config");
 connectMongooDb();
 
+// Cloudinary Configurations
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 // allow corss origin request sharing
 app.use(crossOrigin(corsOptions))
 
@@ -39,14 +47,15 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 // sets static folder
 app.use(express.static('public'));
 // Default Route
-app.get('/', testController);
+const BASE_URI = process.env.APP_STATE == 'production' ? process.env.BASE_URI_PROD : process.env.BASE_URI_DEV;
+app.get(BASE_URI, testController);
 
 // Admin Routes
-app.use('/api/v1', adminAuthRoutes);
+app.use(`${BASE_URI}api/v1`, adminAuthRoutes);
 // Admin other routes
-app.use('/api/v1', adminRoutes);
+app.use(`${BASE_URI}api/v1`, adminRoutes);
 // Frontend Routes
-app.use('/api/v1', websiteRoutes);
+app.use(`${BASE_URI}api/v1`, websiteRoutes);
 
 // route not found handler
 app.use(routeNotFound)

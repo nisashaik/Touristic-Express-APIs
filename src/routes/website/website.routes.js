@@ -1,7 +1,7 @@
 const { registerCustomer, loginCustomer, isRefreshTokenValid, refreshToken, isAuthenticatedUser, logoutUser, getProfile, updateProfile } = require('../../controller/website/auth.controller');
 const { paymentIntent } = require('../../controller/website/checkout.controller');
 const { listPackageCategories, listPackages, getPackage, addFavourite, favourites, removeFavourite } = require('../../controller/website/common.controller');
-const { getOrder } = require('../../controller/website/order.controller');
+const { getOrder, getOrders } = require('../../controller/website/order.controller');
 
 const router = require('express').Router();
 
@@ -25,4 +25,5 @@ router.post('/remove-favourite', [isAuthenticatedUser], removeFavourite);
 
 router.post('/checkout/payment-intent', [isAuthenticatedUser], paymentIntent);
 router.get('/order/:id', [isAuthenticatedUser], getOrder)
+router.get('/orders', [isAuthenticatedUser], getOrders)
 module.exports = router;

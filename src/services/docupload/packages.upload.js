@@ -2,12 +2,14 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const Package = require('../../models/admin/packages.model');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('../../config/cloudinary.config');
 // Unique directory name for each upload
 
 const allowedExtentions = ['.jpg' , '.jpeg' , '.png'];
 
 const uploadDir = (_req) => {
-    const UPLOAD_DIR = `./public/uploads/packagesUploads/${_req.dirUniqueId}`;
+    const UPLOAD_DIR = `/public/uploads/packagesUploads/${_req.dirUniqueId}`;
     if(!fs.existsSync(UPLOAD_DIR)) {
         fs.mkdirSync(UPLOAD_DIR, {recursive: true});
     }
@@ -23,6 +25,18 @@ const storage =  multer.diskStorage({
         cb(null, file.fieldname + '-' +uniquesuffix+ path.extname(file.originalname));
     }
 })
+
+// const storage = new CloudinaryStorage({
+//     cloudinary: cloudinary,
+//     params: {
+//       folder: (req, _) => uploadDir(req),
+//       format: async (_, file) => path.extname(file.originalname), // supports promises as well
+//       public_id: (_, file) => {
+//         const uniquesuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+//         return file.fieldname + '-' +uniquesuffix+ path.extname(file.originalname)
+//       },
+//     },
+// });
 
 const fileFilter = async (_req, file, cb) => {
     if(_req.params?.id) {
