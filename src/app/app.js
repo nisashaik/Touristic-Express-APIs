@@ -16,7 +16,6 @@ const app = express();
 
 // load environment varaibles from env config
 env.config(); 
-
 // connect to database
 const connectMongooDb = require("../config/db.config");
 connectMongooDb();

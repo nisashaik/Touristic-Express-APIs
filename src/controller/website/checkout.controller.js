@@ -1,8 +1,9 @@
 const asyncHandler = require('express-async-handler');
+require("dotenv").config();
 const { errorRes, successRes } = require('../../config/app.response');
 const Payment = require('../../models/payments.model');
 const Order = require('../../models/orders.model');
-const stripe = require("stripe")('sk_test_51QUO26AVKRTZVgn2w10yvLb2lRzlo9YoPBfG8fb3YgoW4accyxIb88zK7hVWfrM6o8feRMdwlrERLsddarXzETkv00Z6QVt3aO');
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 exports.paymentIntent = asyncHandler(async(req, res) => {
     try {
         const {amount, package_id, price_type} = req.body;
