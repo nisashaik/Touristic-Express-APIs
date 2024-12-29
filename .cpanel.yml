@@ -1,0 +1,8 @@
+---
+deployment:
+  tasks:
+    restart: |
+      cd /home/jihapikkshan/touristic/
+      npm install --production
+      npm stop
+      npm start
