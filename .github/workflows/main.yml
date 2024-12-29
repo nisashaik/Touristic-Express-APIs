@@ -34,4 +34,4 @@ jobs:
       run: |
         curl -u "${{ secrets.ftp_username }}:${{ secrets.ftp_password }}" \
         "ftps://apitest.amlc.in/home/jihapikkshan/restart.sh" \
-        --ftps-method nocwd --upload-file -
+        --ftp-method nocwd --upload-file -
