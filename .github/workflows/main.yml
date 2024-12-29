@@ -33,5 +33,5 @@ jobs:
     - name: Trigger Restart Script
       run: |
         curl -u "${{ secrets.ftp_username }}:${{ secrets.ftp_password }}" \
-        "ftp://apitest.amlc.in/home/jihapikkshan/restart.sh" \
-        --ftp-method nocwd --upload-file -
+        "ftps://apitest.amlc.in/home/jihapikkshan/restart.sh" \
+        --ftps-method nocwd --upload-file -
