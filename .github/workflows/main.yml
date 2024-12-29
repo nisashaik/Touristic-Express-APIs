@@ -29,9 +29,3 @@ jobs:
         server-dir: /home/jihapikkshan/touristic/
         protocol: ftps
         port: 21
-
-    - name: Trigger Restart Script
-      run: |
-        curl -u "${{ secrets.ftp_username }}:${{ secrets.ftp_password }}" \
-        "ftps://apitest.amlc.in/home/jihapikkshan/restart.sh" \
-        --ftp-method nocwd --upload-file -
