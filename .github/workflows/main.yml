@@ -33,7 +33,7 @@ jobs:
     - name: 🎤 Restart Node.js Application on cPanel
       uses: appleboy/ssh-action@v1.2.0
       with:
-        host: ${{ secrets.CPANEL_SERVER }}
+        host: apitest.amlc.in
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
         script: |
