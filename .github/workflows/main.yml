@@ -28,19 +28,4 @@ jobs:
         server-dir: /home/jihapikkshan/touristic/
         protocol: ftps
         port: 21
-
-  post-deploy:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Reload cPanel Application
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: apitest.amlc.in
-          username: ${{ secrets.ftp_username }}
-          password: ${{ secrets.ftp_password }}
-          script: |
-            cd /home/username/touristic
-            npm install --production
-            npm start
   
