@@ -25,29 +25,36 @@ const storage =  multer.diskStorage({
 })
 
 const fileFilter = async (_req, file, cb) => {
-    if(_req.params?.id) {
-        const package = await Package.findById(_req.params.id);
-        _req.dirUniqueId = package ? package.dir_unique_id : _req.dirUniqueId; 
-    }
-    const extension = path.extname(file.originalname);
-    // Validation for featured image
-    if(!_req.files['featured_image'] && _req.params?.id == null) {
-        return cb(new Error('Featured image is required'), false);
-    }
-    if(allowedExtentions.includes(extension)) {
-        cb(null, true);
-    } else {
-        const UPLOAD_DIR = path.join(__dirname, '../../../public/uploads/packagesUploads', _req.dirUniqueId);
-        if (fs.existsSync(UPLOAD_DIR) && !_req.params?.id) {
-            try {
-                await fs.promises.rm(UPLOAD_DIR, { recursive: true, force: true })
-            } catch(error) {
-                throw new Error('Failed to delete directory');
-            }
+    try {
+        if(_req.params?.id) {
+            const package = await Package.findById(_req.params.id);
+            _req.dirUniqueId = package ? package.dir_unique_id : _req.dirUniqueId; 
         }
-        cb(new Error('Invalid file type'), false);
+        const extension = path.extname(file.originalname);
+        // Validation for featured image
+        if(!_req.files['featured_image'] && _req.params?.id == null) {
+            return cb(new Error('Featured image is required'), false);
+        }
+        if(allowedExtentions.includes(extension)) {
+            cb(null, true);
+        } else {
+            const UPLOAD_DIR = path.join(__dirname, '../../../public/uploads/packagesUploads', _req.dirUniqueId);
+            if (fs.existsSync(UPLOAD_DIR) && !_req.params?.id) {
+                try {
+                    await fs.promises.rm(UPLOAD_DIR, { recursive: true, force: true })
+                } catch(error) {
+                    console.error('Failed to delete directory:', error);
+                    throw new Error('Failed to delete directory');
+                }
+            }
+            cb(new Error('Invalid file type'), false);
+        }
+    } catch (error) {
+        console.error('Error in fileFilter:', error);
+        cb(error, false);
     }
 }
+
 const packageUploads = multer({
     storage: storage,
     limits: {
