@@ -3,6 +3,7 @@ on:
     branches:
       - main
 name: 🚀 Deploy website on push
+
 jobs:
   web-deploy:
     name: 🎉 Deploy
@@ -28,4 +29,16 @@ jobs:
         server-dir: /home/jihapikkshan/touristic/
         protocol: ftps
         port: 21
-  
+
+    - name: 🎤 Restart Node.js Application on cPanel
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.CPANEL_SERVER }}
+        username: ${{ secrets.ftp_username }}
+        password: ${{ secrets.ftp_password }}
+        script: |
+          source /home/jihapikkshan/nodevenv/touristic/20/bin/activate
+          cd /home/jihapikkshan/touristic
+          npm install --production
+          npm stop || true # Ignore error if app is not running
+          npm start
