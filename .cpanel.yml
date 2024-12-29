@@ -2,7 +2,8 @@
 deployment:
   tasks:
     restart: |
-      source /home/jihapikkshan/nodevenv/touristic/20/bin/activate && cd /home/jihapikkshan/touristic
+      source /home/jihapikkshan/nodevenv/touristic/20/bin/activate
+      cd /home/jihapikkshan/touristic
       npm install --production
-      npm stop
+      npm stop || true
       npm start
