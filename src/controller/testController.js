@@ -5,7 +5,7 @@ function testController(req, res) {
         res.status(200).json(successRes(
             200,
             'SUCCESS',
-            'Welcome to the backend of touristic application'
+            'Welcome to the backend of touristic application!!!'
         ));
     } catch (error) {
         res.status(500).json(errorRes(

@@ -47,6 +47,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.static('public'));
 // Default Route
 const BASE_URI = process.env.APP_STATE == 'production' ? process.env.BASE_URI_PROD : process.env.BASE_URI_DEV;
+
 app.get(BASE_URI, testController);
 
 // Admin Routes
