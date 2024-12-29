@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
       
     - name: 📂 Sync files with FTPS
-      uses: SamKirkland/FTP-Deploy-Action@4.3.4
+      uses: SamKirkland/FTP-Deploy-Action@v4
       with:
         server: apitest.amlc.in
         username: ${{ secrets.ftp_username }}
