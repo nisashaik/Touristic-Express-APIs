@@ -14,14 +14,14 @@ exports.validate = (schema) => async (req, res, next) => {
   } catch (err) {
     // removing the uploaded files if any error occurs
     if(req.dirUniqueId) {
-      const UPLOAD_DIR = `./public/uploads/packagesUploads/${req.dirUniqueId}`;
-        if (fs.existsSync(UPLOAD_DIR)) {
-            try {
-                await fs.promises.rm(UPLOAD_DIR, { recursive: true, force: true })
-            } catch(error) {
-                throw new Error('Failed to delete directory');
-            }
-        }
+      const UPLOAD_DIR = path.join(__dirname, '../../../public/uploads/packagesUploads', _req.dirUniqueId);
+      if (fs.existsSync(UPLOAD_DIR)) {
+          try {
+              await fs.promises.rm(UPLOAD_DIR, { recursive: true, force: true })
+          } catch(error) {
+              throw new Error('Failed to delete directory');
+          }
+      }
     }
     return res.status(500).json(errorRes(
       500,
